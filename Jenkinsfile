@@ -45,17 +45,17 @@ pipeline {
   stages {
 
 
-      stage('CleanWorkspace Before') {
-          steps {
+      //stage('CleanWorkspace Before') {
+        //  steps {
 
               //step([$class: 'WsCleanup'])
              // checkout scm
               //        sh "ls -ltr"
 
-          }
+        //  }
 
 
-      }
+    //  }
 
 
 
