@@ -35,7 +35,6 @@ pipeline {
       INITIAL="${INITIAL}"
       GITLAB_Checkout_Sha="${env.gitlabAfter}"
       GITLAB_SSH_URL="${env.gitlabSourceRepoSshUrl}"
-      SCANNERHOME= tool 'SonarQubeScanner'
       SYSDIG_ENDPOINT = "https://us2.app.sysdig.com"
   }
 
