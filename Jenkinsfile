@@ -48,9 +48,9 @@ pipeline {
       stage('CleanWorkspace Before') {
           steps {
 
-              step([$class: 'WsCleanup'])
-              checkout scm
-                      sh "ls -ltr"
+              //step([$class: 'WsCleanup'])
+             // checkout scm
+              //        sh "ls -ltr"
 
           }
 
