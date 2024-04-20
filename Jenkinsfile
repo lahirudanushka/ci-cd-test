@@ -19,7 +19,7 @@ def ENV_SELECT(condition) {
 
 
 pipeline {
-  agent { 'slave-docker-build'}
+  agent { none}
 
   environment{
       BRANCH_NAME_TAG="${GIT_BRANCH.split("/").size() > 1 ? GIT_BRANCH.split("/")[1] : GIT_BRANCH}"
