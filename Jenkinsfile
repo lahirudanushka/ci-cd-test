@@ -447,60 +447,8 @@ pipeline {
       }
 
 
-       stage("SonarQube analysis") {
-           when {
-               expression {
-                   !skipRemainingStages
-               }
-           }
 
-           steps {
-               script{
 
-                //    withSonarQubeEnv(credentialsId: 'token-sonar-comet', installationName: 'sonar-comet') {
-                    withCredentials([string(credentialsId: 'sonarqube-xlaxiata', variable: 'SONAR_TOKEN')]) {
-                        withSonarQubeEnv(credentialsId: 'sonarqube-xlaxiata', installationName: 'sonar-xlaxiata') {
-                            sh 'sudo ${SCANNERHOME}/bin/sonar-scanner \
-                            -Dsonar.projectKey="${SONARID}" \
-                            -Dsonar.projectName="${SONARID}" \
-                            -Dsonar.sources="./src/main" \
-                            -Dsonar.sourceEncoding="UTF-8" \
-                            -Dsonar.coverage.exclusions="src/main/java/**/postpaidoperationflowmanager/config/**/*.java, src/main/java/**/postpaidoperationflowmanager/controller/**/*.java, src/main/java/**/postpaidoperationflowmanager/filter/**/*.java, src/main/java/**/postpaidoperationflowmanager/util/**/*.java" \
-                            -Dsonar.java.binaries="./target"  \
-                            -Dsonar.java.libraries="./target/" \
-                            -Dsonar.host.url="https://sonarqube.xlaxiata.id" \
-                            -Dsonar.login="${SONAR_TOKEN}"'
-                        }
-                    }
-               }
-               }
-           }
-       //}
-
-      //stage("Quality Gate") {
-          //when {
-              //expression {
-                  //!skipRemainingStages
-                  //true
-              //}
-         // }
-
-          //steps {
-              //script{
-                //sleep(30)
-                //timeout(time: 120, unit: 'SECONDS') {
-                //println '${env.SONAR_HOST_URL}'
-                //def qg = waitForQualityGate()
-                //println "${qg.status}"
-                    //if (qg.status != 'OK') {
-                   //error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                   //}
-
-                //waitForQualityGate abortPipeline: true
-               //}
-               //}
-              //}
-             //}
 
 
 
@@ -562,47 +510,18 @@ pipeline {
 
 
 
-
-
-      stage('Scan image V2') {
-      steps {
-          catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-              println "Debug Line: Scan image step two"
-              withCredentials([usernamePassword(credentialsId: 'SysdigTokenSecure', passwordVariable:	'SECURE_API_TOKEN', usernameVariable: '')]) {
-                  sh '''
-                  VERSION=$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)
-                  curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/${VERSION}/linux/amd64/sysdig-cli-scanner"
-                  chmod +x ./sysdig-cli-scanner
-                  echo ${DOCKER_IMAGE_TAG} > sysdig_secure_images
-                  echo "sysimage ::  $sysdig_secure_images"
-                  ./sysdig-cli-scanner --apiurl ${SYSDIG_ENDPOINT} docker://${DOCKER_IMAGE_TAG}
-                  if ( !skipBUATSteps ){
-                          ./sysdig-cli-scanner --apiurl ${SYSDIG_ENDPOINT} docker://${DOCKER_IMAGE_TAG_BUAT}
-                  }
-                  '''
-              }
-          }
-      }
-}
-
-
-
-
-
-
-
       stage('Docker push') {
           steps {
               script {
 
               if ( setGcloudProd )
               {
-                //sh "gcloud config set account terraform-automation@comet-prod-c4c7.iam.gserviceaccount.com"
+                //sh "gcloud config set account terraform-an@iceaccount.com"
                 ENV_SELECT(true)
               }
               else
               {
-                 sh "gcloud config set account jenkins@comet-nonprod-200617.iam.gserviceaccount.com"
+                 sh "gcloud config set account jenkins@eaccount.com"
               }
                   sh 'docker images'
                       docker.image(DOCKER_IMAGE.id).push()
